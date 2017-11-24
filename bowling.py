@@ -8,15 +8,11 @@ def score(game):
             result += 10 - last 
         else:
             result += get_value(game[i])
-        result = calculate_result(frame, game, i, result) # bad name
-        last = get_value(game[i]) # ennek nem itt kellene lennie, de akkor hol?
+        result = calculate_result(frame, game, i, result)
+        last = get_value(game[i])
         if not in_first_half:
             frame += 1
-        if in_first_half == True:
-            in_first_half = False
-        #in_first_half = not in_first_half
-        else:
-            in_first_half = True
+        in_first_half = not in_first_half
         if game[i].lower() == "x":
             in_first_half = True
             frame += 1
