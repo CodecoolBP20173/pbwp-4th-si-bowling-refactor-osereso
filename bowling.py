@@ -1,28 +1,20 @@
 def score(game):
     result = 0
     frame = 1
+    last = 0
     in_first_half = True
     for i in range(len(game)):
-        if game[i] == '/': # tehát spare van, de azt még nem lehet 
-            result += 10 - last # what is this "last"?
+        if game[i] == '/':
+            result += 10 - last 
         else:
             result += get_value(game[i])
-        # if not in_first_half: ## erre a két komment sorra mi szükség van?
-            # frame += 1
-        if frame < 10 and get_value(game[i]) == 10: # tehát a spare-t vagy strike-ot vizsgálja
-            if game[i] == '/': # ha spare van - ilyen már volt, ezt nem lehet def-be kiszedni?
-                result += get_value(game[i+1])
-            elif game[i].lower() == "x":
-                result += get_value(game[i+1])
-                if game[i+2] == '/':
-                    result += 10 - get_value(game[i+1])
-                else:
-                    result += get_value(game[i+2])
+        result = calculate_result(frame, game, i, result) # bad name
         last = get_value(game[i]) # ennek nem itt kellene lennie, de akkor hol?
         if not in_first_half:
             frame += 1
         if in_first_half == True:
             in_first_half = False
+        #in_first_half = not in_first_half
         else:
             in_first_half = True
         if game[i].lower() == "x":
@@ -30,10 +22,22 @@ def score(game):
             frame += 1
     return result
 
-def get_value(char):
+def calculate_result(frame, game, i, result):
+    if frame < 10 and get_value(game[i]) == 10: # tehát a spare-t vagy strike-ot vizsgálja
+        if game[i] == '/': # ha spare van - ilyen már volt, ezt nem lehet def-be kiszedni?
+            result += get_value(game[i+1]) #
+        elif game[i].lower() == "x":
+            result += get_value(game[i+1]) #
+            if game[i+2] == '/':
+                result += 10 - get_value(game[i+1])
+            else:
+                result += get_value(game[i+2])
+    return result
+
+def get_value(char): 
     if char == '1' or char == '2' or char == '3' or \
        char == '4' or char == '5' or char == '6' or \
-       char == '7' or char == '8' or char == '9':
+       char == '7' or char == '8' or char == '9': # range
         return int(char)
     elif char.lower() == 'x' or char == '/':
         return 10
