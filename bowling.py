@@ -1,7 +1,7 @@
 max_score = 10
 
 def score(game):
-    global max_score
+    max_score
     result = 0
     frame = 1
     last = 0
@@ -22,7 +22,7 @@ def score(game):
     return result
 
 def calculate_result(frame, game, i, result):
-    global max_score
+    max_score
     total_frames = 10
     if frame < total_frames and get_value(game[i]) == max_score:
         result += get_value(game[i+1])    
@@ -34,7 +34,7 @@ def calculate_result(frame, game, i, result):
     return result
 
 def get_value(char): 
-    global max_score
+    max_score
     if char in ["1", "2", "3", "4", "5", "6", "7", "8", "9"]:
         return int(char)
     elif char.lower() == 'x' or char == '/':
